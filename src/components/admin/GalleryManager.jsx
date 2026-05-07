@@ -15,11 +15,12 @@ import {
   useSortable
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Trash2, GripVertical, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { Trash2, GripVertical, Image as ImageIcon, Loader2, Edit2 } from 'lucide-react';
 import { useTrabajos } from '../../hooks/useTrabajos';
 import { useGalleryAdmin } from '../../hooks/useGalleryAdmin';
+import { EditTrabajoModal } from './EditTrabajoModal';
 
-const SortableItem = ({ item, onDelete }) => {
+const SortableItem = ({ item, onDelete, onEdit }) => {
   const {
     attributes,
     listeners,
@@ -58,12 +59,20 @@ const SortableItem = ({ item, onDelete }) => {
         </span>
       </div>
 
-      <button 
-        onClick={() => onDelete(item.id, item.imagePath)}
-        className="p-3 text-merengue-text/30 hover:text-red-500 transition-colors"
-      >
-        <Trash2 size={20} />
-      </button>
+      <div className="flex space-x-1">
+        <button 
+          onClick={() => onEdit(item)}
+          className="p-3 text-merengue-text/30 hover:text-blue-500 transition-colors"
+        >
+          <Edit2 size={20} />
+        </button>
+        <button 
+          onClick={() => onDelete(item.id, item.imagePath)}
+          className="p-3 text-merengue-text/30 hover:text-red-500 transition-colors"
+        >
+          <Trash2 size={20} />
+        </button>
+      </div>
     </div>
   );
 };
@@ -72,10 +81,15 @@ export const GalleryManager = () => {
   const { trabajos, loading } = useTrabajos();
   const { deleteTrabajo, updateOrden } = useGalleryAdmin();
   const [items, setItems] = useState([]);
+  
+  // Edit state
+  const [editingItem, setEditingItem] = useState(null);
 
   useEffect(() => {
-    if (trabajos && trabajos.length > 0 && items.length === 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+    // If we have items from Firebase, and they differ in length from our local state,
+    // it means an item was added or deleted. We sync local state.
+    // We avoid doing this blindly on every render to not break the Drag and Drop order.
+    if (trabajos && trabajos.length !== items.length) {
       setItems(trabajos);
     }
   }, [trabajos, items.length]);
@@ -90,7 +104,7 @@ export const GalleryManager = () => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = items.findIndex(i => i.id === active.id);
       const newIndex = items.findIndex(i => i.id === over.id);
       
@@ -98,6 +112,14 @@ export const GalleryManager = () => {
       setItems(newArray);
       updateOrden(newArray);
     }
+  };
+
+  const handleEdit = (item) => {
+    setEditingItem(item);
+  };
+
+  const handleCloseEdit = () => {
+    setEditingItem(null);
   };
 
   if (loading) return (
@@ -135,10 +157,16 @@ export const GalleryManager = () => {
           strategy={verticalListSortingStrategy}
         >
           {items.map(item => (
-            <SortableItem key={item.id} item={item} onDelete={deleteTrabajo} />
+            <SortableItem key={item.id} item={item} onDelete={deleteTrabajo} onEdit={handleEdit} />
           ))}
         </SortableContext>
       </DndContext>
+
+      <EditTrabajoModal 
+        isOpen={!!editingItem} 
+        onClose={handleCloseEdit} 
+        item={editingItem} 
+      />
     </div>
   );
 };

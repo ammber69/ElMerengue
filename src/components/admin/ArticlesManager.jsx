@@ -65,7 +65,7 @@ const SortableArticle = ({ item, onDelete }) => {
       </div>
 
       <button 
-        onClick={() => onDelete(item.id, item.imagePath)}
+        onClick={() => onDelete(item.id)}
         className="p-3 text-merengue-text/30 hover:text-red-500 transition-colors"
       >
         <Trash2 size={20} />
@@ -80,8 +80,8 @@ export const ArticlesManager = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    if (articulos && articulos.length > 0 && items.length === 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+    // Sync local items if the length differs to avoid blocking new items
+    if (articulos && articulos.length !== items.length) {
       setItems(articulos);
     }
   }, [articulos, items.length]);
@@ -93,7 +93,7 @@ export const ArticlesManager = () => {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = items.findIndex(i => i.id === active.id);
       const newIndex = items.findIndex(i => i.id === over.id);
       const newArray = arrayMove(items, oldIndex, newIndex);

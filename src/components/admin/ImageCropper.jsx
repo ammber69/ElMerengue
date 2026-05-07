@@ -18,11 +18,11 @@ export const ImageCropper = ({ imageSrc, onCropComplete, onCancel }) => {
     if (!croppedAreaPixels) return;
     try {
       setIsCropping(true);
-      const croppedImageBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
+      // Now getCroppedImg returns a Base64 string directly
+      const base64Image = await getCroppedImg(imageSrc, croppedAreaPixels);
       
-      // Convert blob back to File object for the uploader
-      const croppedFile = new File([croppedImageBlob], "cropped-image.jpg", { type: "image/jpeg" });
-      onCropComplete(croppedFile, URL.createObjectURL(croppedImageBlob));
+      // Pass the base64 string as both the "file" (to be saved to Firestore) and the preview
+      onCropComplete(base64Image, base64Image);
     } catch (e) {
       console.error(e);
     } finally {

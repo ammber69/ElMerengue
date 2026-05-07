@@ -37,7 +37,7 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-merengue-pastel/20">
+    <section className="snap-start relative h-screen w-full flex items-center justify-center overflow-hidden bg-merengue-pastel/20">
       {/* Background with overlay */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-merengue-pastel/60 to-merengue-snow z-10" />

@@ -65,18 +65,32 @@ export default async function getCroppedImg(
   ctx.drawImage(image, 0, 0)
 
   const croppedCanvas = document.createElement('canvas')
-
   const croppedCtx = croppedCanvas.getContext('2d')
 
   if (!croppedCtx) {
     return null
   }
 
-  // Set the size of the cropped canvas
-  croppedCanvas.width = pixelCrop.width
-  croppedCanvas.height = pixelCrop.height
+  // Calculate target size to ensure Base64 string is not too large for Firestore
+  const MAX_SIZE = 600;
+  let targetWidth = pixelCrop.width;
+  let targetHeight = pixelCrop.height;
 
-  // Draw the cropped image onto the new canvas
+  if (targetWidth > MAX_SIZE || targetHeight > MAX_SIZE) {
+    if (targetWidth > targetHeight) {
+      targetHeight = Math.floor(targetHeight * (MAX_SIZE / targetWidth));
+      targetWidth = MAX_SIZE;
+    } else {
+      targetWidth = Math.floor(targetWidth * (MAX_SIZE / targetHeight));
+      targetHeight = MAX_SIZE;
+    }
+  }
+
+  // Set the size of the cropped canvas
+  croppedCanvas.width = targetWidth;
+  croppedCanvas.height = targetHeight;
+
+  // Draw the cropped image onto the new canvas, scaling it down
   croppedCtx.drawImage(
     canvas,
     pixelCrop.x,
@@ -85,17 +99,11 @@ export default async function getCroppedImg(
     pixelCrop.height,
     0,
     0,
-    pixelCrop.width,
-    pixelCrop.height
+    targetWidth,
+    targetHeight
   )
 
-  // As Base64 string
-  // return croppedCanvas.toDataURL('image/jpeg');
-
-  // As a blob
-  return new Promise((resolve) => {
-    croppedCanvas.toBlob((file) => {
-      resolve(file)
-    }, 'image/jpeg')
-  })
+  // Return as Base64 string with heavy JPEG compression (0.6)
+  // This produces a very lightweight string (typically 30-80KB)
+  return croppedCanvas.toDataURL('image/jpeg', 0.6);
 }

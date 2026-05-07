@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply scroll-smooth snap-y snap-proximity scroll-pt-24;
+  }
+
   body {
     @apply bg-merengue-snow text-merengue-text font-body antialiased;
   }
