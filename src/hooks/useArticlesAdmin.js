@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { db, storage } from '../firebase/config';
-import { collection, addDoc, deleteDoc, doc, updateDoc, writeBatch, serverTimestamp, query, orderBy, getDocs } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, doc, writeBatch, serverTimestamp, query, orderBy, getDocs } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import toast from 'react-hot-toast';
 
@@ -69,7 +69,7 @@ export const useArticlesAdmin = () => {
         await deleteObject(ref(storage, imagePath));
       }
       toast.success("Artículo eliminado");
-    } catch (error) {
+    } catch {
       toast.error("Error al eliminar");
     }
   };
@@ -82,10 +82,11 @@ export const useArticlesAdmin = () => {
     try {
       await batch.commit();
       toast.success("Orden actualizado");
-    } catch (error) {
+    } catch {
       toast.error("Error al guardar el nuevo orden");
     }
   };
 
   return { addArticle, deleteArticle, updateOrden, uploading, progress };
 };
+

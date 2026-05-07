@@ -20,7 +20,7 @@ export const Dashboard = () => {
       await signOut(auth);
       toast.success('Sesión cerrada');
       navigate('/admin/login');
-    } catch (error) {
+    } catch {
       toast.error('Error al cerrar sesión');
     }
   };

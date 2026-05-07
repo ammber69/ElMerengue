@@ -74,10 +74,11 @@ export const GalleryManager = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    if (trabajos) {
+    if (trabajos && trabajos.length > 0 && items.length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setItems(trabajos);
     }
-  }, [trabajos]);
+  }, [trabajos, items.length]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

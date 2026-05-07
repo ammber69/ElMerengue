@@ -8,7 +8,6 @@ export const useTrabajos = (categoria = 'Todos') => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
     let q = query(collection(db, 'trabajos'), orderBy('orden', 'asc'));
 
     if (categoria !== 'Todos') {

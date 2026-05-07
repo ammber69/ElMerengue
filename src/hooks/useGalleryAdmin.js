@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { db, storage } from '../firebase/config';
-import { collection, addDoc, deleteDoc, doc, updateDoc, writeBatch, serverTimestamp, query, orderBy, getDocs } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, doc, writeBatch, serverTimestamp, query, orderBy, getDocs } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import toast from 'react-hot-toast';
 

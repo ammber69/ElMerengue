@@ -15,7 +15,7 @@ import {
   useSortable
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Trash2, GripVertical, ShoppingBag, Loader2, Tag } from 'lucide-react';
+import { Trash2, GripVertical, ShoppingBag, Loader2 } from 'lucide-react';
 import { useArticulos } from '../../hooks/useArticulos';
 import { useArticlesAdmin } from '../../hooks/useArticlesAdmin';
 
@@ -80,8 +80,11 @@ export const ArticlesManager = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    if (articulos) setItems(articulos);
-  }, [articulos]);
+    if (articulos && articulos.length > 0 && items.length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setItems(articulos);
+    }
+  }, [articulos, items.length]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

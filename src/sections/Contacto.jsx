@@ -7,7 +7,6 @@ export const Contacto = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
   const WHATSAPP_NUMBER = "522713138307";
-  const WHATSAPP_NUMBER_2 = "522712831339";
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola El Merengue! Me gustaría cotizar un pedido.')}`;
 
   return (

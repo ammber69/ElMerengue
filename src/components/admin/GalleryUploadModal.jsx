@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Upload, CheckCircle2, AlertCircle } from 'lucide-react';
+import { X, Upload, CheckCircle2 } from 'lucide-react';
 import { Button } from '../Button';
 import { useGalleryAdmin } from '../../hooks/useGalleryAdmin';
 import { ImageCropper } from './ImageCropper';
