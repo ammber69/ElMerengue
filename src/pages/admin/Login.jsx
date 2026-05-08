@@ -53,91 +53,121 @@ export const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-merengue-snow px-4 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-[#fafafa] px-4 overflow-hidden">
       {/* Particles Background */}
       {init && (
         <Particles
           id="tsparticles"
           options={particlesOptions}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 opacity-40"
         />
       )}
 
-      {/* Decorative Gradients */}
-      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-merengue-pastel/30 to-transparent z-0" />
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-merengue-pastel/30 to-transparent z-0" />
+      {/* Modern Soft Background Elements */}
+      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-merengue-main/5 rounded-full blur-[120px] z-0" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-merengue-pastel/10 rounded-full blur-[120px] z-0" />
 
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 max-w-md w-full"
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 w-full max-w-[480px]"
       >
-        <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-merengue-dark/5 p-10 border border-white/50">
-          {/* Logo Section inside the card */}
-          <div className="flex flex-col items-center mb-8">
+        <div className="bg-white/70 backdrop-blur-[32px] rounded-[3.5rem] shadow-[0_32px_64px_-16px_rgba(214,51,132,0.12)] p-12 md:p-16 border border-white/60">
+          
+          {/* Logo Section */}
+          <div className="flex flex-col items-center mb-12">
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-              className="w-48 h-48 mb-4 drop-shadow-xl"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="relative mb-8"
             >
+              <div className="absolute inset-0 bg-merengue-main/10 rounded-full blur-2xl scale-150" />
               <img 
                 src={logo} 
                 alt="El Merengue Logo" 
-                className="w-full h-full object-contain"
+                className="relative w-40 h-40 object-contain drop-shadow-lg"
               />
             </motion.div>
-            <h1 className="text-3xl font-display font-bold text-merengue-dark tracking-tight text-center">Panel Admin</h1>
-            <div className="h-1 w-10 bg-merengue-main rounded-full mt-2 opacity-50" />
-            <p className="text-merengue-text/50 text-xs mt-3 font-medium uppercase tracking-widest">Identificación Requerida</p>
-          </div>
-
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div className="space-y-2">
-              <label className="block text-sm font-bold text-merengue-dark ml-1">Correo Electrónico</label>
-              <div className="relative group">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-merengue-text/30 group-focus-within:text-merengue-main transition-colors" size={20} />
-                <input 
-                  type="email" 
-                  required
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-merengue-gray bg-white/50 focus:bg-white focus:ring-4 focus:ring-merengue-main/10 focus:border-merengue-main outline-none transition-all text-lg"
-                  placeholder="admin@elmerengue.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+            
+            <div className="text-center space-y-2">
+              <h1 className="text-4xl font-display font-black text-merengue-dark tracking-tight">
+                Panel Admin
+              </h1>
+              <div className="flex items-center justify-center space-x-3">
+                <div className="h-[2px] w-8 bg-merengue-main/20 rounded-full" />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-merengue-main/60">
+                  Acceso Restringido
+                </span>
+                <div className="h-[2px] w-8 bg-merengue-main/20 rounded-full" />
               </div>
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <label className="block text-sm font-bold text-merengue-dark ml-1">Contraseña</label>
-              <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-merengue-text/30 group-focus-within:text-merengue-main transition-colors" size={20} />
-                <input 
-                  type="password" 
-                  required
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-merengue-gray bg-white/50 focus:bg-white focus:ring-4 focus:ring-merengue-main/10 focus:border-merengue-main outline-none transition-all text-lg"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+          <form onSubmit={handleLogin} className="space-y-8">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="block text-xs font-black text-merengue-dark/40 uppercase tracking-widest ml-1">
+                  Correo Electrónico
+                </label>
+                <div className="relative group">
+                  <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-merengue-text/20 group-focus-within:text-merengue-main transition-all duration-300" size={18} />
+                  <input 
+                    type="email" 
+                    required
+                    className="w-full pl-14 pr-6 py-5 rounded-[2rem] border-2 border-merengue-gray/50 bg-white/40 focus:bg-white focus:ring-[12px] focus:ring-merengue-main/5 focus:border-merengue-main outline-none transition-all duration-500 text-merengue-dark font-medium placeholder:text-merengue-text/20 shadow-sm"
+                    placeholder="admin@elmerengue.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-black text-merengue-dark/40 uppercase tracking-widest ml-1">
+                  Contraseña
+                </label>
+                <div className="relative group">
+                  <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-merengue-text/20 group-focus-within:text-merengue-main transition-all duration-300" size={18} />
+                  <input 
+                    type="password" 
+                    required
+                    className="w-full pl-14 pr-6 py-5 rounded-[2rem] border-2 border-merengue-gray/50 bg-white/40 focus:bg-white focus:ring-[12px] focus:ring-merengue-main/5 focus:border-merengue-main outline-none transition-all duration-500 text-merengue-dark font-medium placeholder:text-merengue-text/20 shadow-sm"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
 
             <Button 
               type="submit" 
-              className="w-full py-5 text-xl rounded-2xl shadow-xl shadow-merengue-main/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="w-full py-6 text-xl rounded-[2rem] shadow-[0_20px_40px_-12px_rgba(214,51,132,0.35)] hover:shadow-[0_25px_50px_-12px_rgba(214,51,132,0.45)] hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 font-bold tracking-tight"
               disabled={loading}
             >
-              {loading ? 'Iniciando sesión...' : 'Entrar al Panel'}
+              {loading ? (
+                <span className="flex items-center justify-center space-x-2">
+                  <span className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Entrando...</span>
+                </span>
+              ) : (
+                'Iniciar Sesión'
+              )}
             </Button>
           </form>
 
-          <div className="mt-10 p-5 bg-merengue-gray/30 rounded-2xl flex items-start space-x-4 border border-merengue-pastel/20">
-            <AlertCircle className="text-merengue-main flex-shrink-0 mt-0.5" size={20} />
-            <p className="text-xs text-merengue-text/60 leading-relaxed font-medium">
-              Acceso restringido. Por seguridad, todos los intentos de inicio de sesión son registrados.
-            </p>
+          {/* Footer Security Notice */}
+          <div className="mt-12 pt-8 border-t border-merengue-gray/50">
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-merengue-main/5 rounded-2xl flex items-center justify-center flex-shrink-0">
+                <AlertCircle className="text-merengue-main/40" size={18} />
+              </div>
+              <p className="text-[11px] text-merengue-text/40 leading-relaxed font-medium">
+                Este es un sistema privado. El acceso no autorizado está estrictamente prohibido y será monitoreado.
+              </p>
+            </div>
           </div>
         </div>
       </motion.div>
