@@ -80,7 +80,7 @@ export const Login = () => {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-              className="w-24 h-24 mb-4 drop-shadow-xl"
+              className="w-48 h-48 mb-4 drop-shadow-xl"
             >
               <img 
                 src={logo} 
