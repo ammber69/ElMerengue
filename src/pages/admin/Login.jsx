@@ -73,25 +73,26 @@ export const Login = () => {
         transition={{ duration: 0.8 }}
         className="relative z-10 max-w-md w-full"
       >
-        {/* Logo Section */}
-        <div className="flex flex-col items-center mb-10">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-            className="w-32 h-32 mb-6 drop-shadow-2xl"
-          >
-            <img 
-              src={logo} 
-              alt="El Merengue Logo" 
-              className="w-full h-full object-contain"
-            />
-          </motion.div>
-          <h1 className="text-4xl font-display font-bold text-merengue-dark tracking-tight">Panel Admin</h1>
-          <div className="h-1 w-12 bg-merengue-main rounded-full mt-3 opacity-50" />
-        </div>
-
         <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-merengue-dark/5 p-10 border border-white/50">
+          {/* Logo Section inside the card */}
+          <div className="flex flex-col items-center mb-8">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
+              className="w-24 h-24 mb-4 drop-shadow-xl"
+            >
+              <img 
+                src={logo} 
+                alt="El Merengue Logo" 
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
+            <h1 className="text-3xl font-display font-bold text-merengue-dark tracking-tight text-center">Panel Admin</h1>
+            <div className="h-1 w-10 bg-merengue-main rounded-full mt-2 opacity-50" />
+            <p className="text-merengue-text/50 text-xs mt-3 font-medium uppercase tracking-widest">Identificación Requerida</p>
+          </div>
+
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
               <label className="block text-sm font-bold text-merengue-dark ml-1">Correo Electrónico</label>
