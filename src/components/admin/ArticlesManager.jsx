@@ -93,10 +93,10 @@ export const ArticlesManager = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    if (articulos && articulos.length !== items.length) {
+    if (articulos) {
       setItems(articulos);
     }
-  }, [articulos, items.length]);
+  }, [articulos]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

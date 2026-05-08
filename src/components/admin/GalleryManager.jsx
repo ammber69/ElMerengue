@@ -95,10 +95,10 @@ export const GalleryManager = () => {
   const [editingItem, setEditingItem] = useState(null);
 
   useEffect(() => {
-    if (trabajos && trabajos.length !== items.length) {
+    if (trabajos) {
       setItems(trabajos);
     }
-  }, [trabajos, items.length]);
+  }, [trabajos]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase/config';
 import { signOut } from 'firebase/auth';
-import { Image as ImageIcon, ShoppingBag, LogOut, Plus } from 'lucide-react';
+import { Image as ImageIcon, ShoppingBag, Users, LogOut, Plus } from 'lucide-react';
 import { Button } from '../../components/Button';
 import { GalleryManager } from '../../components/admin/GalleryManager';
 import { GalleryUploadModal } from '../../components/admin/GalleryUploadModal';
 import { ArticlesManager } from '../../components/admin/ArticlesManager';
 import { ArticleUploadModal } from '../../components/admin/ArticleUploadModal';
+import { UsersManager } from '../../components/admin/UsersManager';
+import { UserCreateModal } from '../../components/admin/UserCreateModal';
 import toast from 'react-hot-toast';
 
 export const Dashboard = () => {
@@ -28,7 +30,17 @@ export const Dashboard = () => {
   const navItems = [
     { id: 'gallery', label: 'Galería de Trabajos', icon: <ImageIcon size={20} /> },
     { id: 'articles', label: 'Catálogo de Artículos', icon: <ShoppingBag size={20} /> },
+    { id: 'users', label: 'Usuarios', icon: <Users size={20} /> },
   ];
+
+  const getAddButtonLabel = () => {
+    switch (activeTab) {
+      case 'gallery': return 'Añadir Trabajo';
+      case 'articles': return 'Añadir Artículo';
+      case 'users': return 'Añadir Usuario';
+      default: return 'Añadir';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-merengue-gray flex">
@@ -84,16 +96,14 @@ export const Dashboard = () => {
             className="rounded-2xl flex items-center space-x-2 px-8 py-4 shadow-xl shadow-merengue-main/20"
           >
             <Plus size={20} />
-            <span className="font-bold">Añadir {activeTab === 'gallery' ? 'Trabajo' : 'Artículo'}</span>
+            <span className="font-bold">{getAddButtonLabel()}</span>
           </Button>
         </header>
 
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-          {activeTab === 'gallery' ? (
-            <GalleryManager />
-          ) : (
-            <ArticlesManager />
-          )}
+          {activeTab === 'gallery' && <GalleryManager />}
+          {activeTab === 'articles' && <ArticlesManager />}
+          {activeTab === 'users' && <UsersManager />}
         </div>
       </main>
 
@@ -104,6 +114,10 @@ export const Dashboard = () => {
       />
       <ArticleUploadModal
         isOpen={isModalOpen && activeTab === 'articles'}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <UserCreateModal
+        isOpen={isModalOpen && activeTab === 'users'}
         onClose={() => setIsModalOpen(false)}
       />
     </div>

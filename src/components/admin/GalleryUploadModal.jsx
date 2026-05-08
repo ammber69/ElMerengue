@@ -20,15 +20,6 @@ export const GalleryUploadModal = ({ isOpen, onClose }) => {
   const { addTrabajo, uploading, progress } = useGalleryAdmin();
 
   const onDrop = useCallback((acceptedFiles) => {
-    const selectedFile = acceptedFiles[accept[0]];
-    if (selectedFile) {
-      setUnCroppedImage(URL.createObjectURL(selectedFile));
-      setIsCropping(true);
-    }
-  }, []);
-
-  // Fix: acceptedFiles[0] instead of acceptedFiles[accept[0]]
-  const onDropFixed = useCallback((acceptedFiles) => {
     const selectedFile = acceptedFiles[0];
     if (selectedFile) {
       setUnCroppedImage(URL.createObjectURL(selectedFile));
@@ -37,7 +28,7 @@ export const GalleryUploadModal = ({ isOpen, onClose }) => {
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: onDropFixed,
+    onDrop,
     accept: { 'image/*': [] },
     multiple: false,
     maxSize: 5242880 // 5MB
