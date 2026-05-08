@@ -10,8 +10,8 @@ export const Contacto = () => {
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola El Merengue! Me gustaría cotizar un pedido.')}`;
 
   return (
-    <section id="contacto" className="snap-start py-24 bg-gradient-to-b from-merengue-snow to-merengue-pastel/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
+    <section id="contacto" className="snap-start min-h-screen flex items-center py-24 bg-gradient-to-b from-merengue-snow to-merengue-pastel/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}

@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply scroll-smooth snap-y snap-proximity scroll-pt-24;
+    @apply scroll-smooth snap-y snap-mandatory scroll-pt-20;
   }
 
   body {

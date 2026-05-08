@@ -21,7 +21,7 @@ export const Gallery = () => {
   };
 
   return (
-    <section id="trabajos" className="snap-start py-24 bg-white overflow-hidden">
+    <section id="trabajos" className="snap-start min-h-screen py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}

@@ -1,49 +1,104 @@
 import { motion } from 'framer-motion';
-import { Eye } from 'lucide-react';
+import { Eye, Heart } from 'lucide-react';
 
 export const GalleryCard = ({ item, onClick }) => {
+  // Variants for coordinated animations
+  const cardVariants = {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1 },
+    hover: { 
+      y: -8,
+      transition: { duration: 0.4, ease: "easeOut" }
+    }
+  };
+
+  const imageVariants = {
+    initial: { scale: 1 },
+    hover: { 
+      scale: 1.15,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
+  const overlayVariants = {
+    initial: { opacity: 0 },
+    hover: { 
+      opacity: 1,
+      transition: { duration: 0.4 }
+    }
+  };
+
+  const infoVariants = {
+    initial: { y: 30, opacity: 0 },
+    hover: { 
+      y: 0, 
+      opacity: 1,
+      transition: { 
+        duration: 0.5, 
+        delay: 0.1,
+        ease: "easeOut" 
+      }
+    }
+  };
+
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.4 }}
-      className="relative group cursor-pointer overflow-hidden rounded-2xl bg-merengue-gray/20 shadow-md hover:shadow-2xl hover:shadow-merengue-main/20 transition-all duration-500 hover:-translate-y-1"
+      variants={cardVariants}
+      initial="initial"
+      animate="animate"
+      whileHover="hover"
+      exit={{ opacity: 0, scale: 0.95 }}
+      className="relative cursor-pointer overflow-hidden rounded-[2.5rem] bg-merengue-gray shadow-lg hover:shadow-2xl hover:shadow-merengue-main/20 transition-shadow duration-500"
       onClick={() => onClick(item)}
     >
-      {/* Image container with hover scaling */}
+      {/* Image container */}
       <div className="aspect-square overflow-hidden relative">
         <motion.img
+          variants={imageVariants}
           src={item.imageUrl}
           alt={item.titulo}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          className="w-full h-full object-cover"
         />
-        {/* Sombreado interior dinámico para dar profundidad */}
-        <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,0.05)] pointer-events-none"></div>
+        
+        {/* Pink Tint Overlay - More prominent as requested */}
+        <motion.div 
+          variants={overlayVariants}
+          className="absolute inset-0 bg-gradient-to-t from-merengue-main/90 via-merengue-main/40 to-merengue-main/10 backdrop-blur-[2px]"
+        />
+
+        {/* Interior shadow for depth */}
+        <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.1)] pointer-events-none" />
       </div>
 
-      {/* Overlay - Apple style glassmorphism */}
-      <div className="absolute inset-0 bg-gradient-to-t from-merengue-dark/90 via-merengue-dark/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+      {/* Info Container - Now appears automatically on hover */}
+      <div className="absolute inset-0 flex flex-col justify-end p-8 pointer-events-none">
         <motion.div 
-          initial={{ y: 20, opacity: 0 }}
-          whileHover={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="backdrop-blur-md bg-white/10 rounded-2xl p-5 border border-white/20 shadow-xl"
+          variants={infoVariants}
+          className="backdrop-blur-xl bg-white/20 rounded-[2rem] p-6 border border-white/30 shadow-2xl"
         >
-          <h3 className="text-white font-display text-xl font-bold mb-1">{item.titulo}</h3>
-          <p className="text-white/80 text-sm font-sub mb-3 uppercase tracking-widest text-[10px]">{item.categoria}</p>
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-white font-display text-2xl font-bold leading-tight">{item.titulo}</h3>
+            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white">
+              <Heart size={16} fill="currentColor" className="opacity-80" />
+            </div>
+          </div>
           
-          <div className="flex items-center text-merengue-pastel text-xs font-semibold uppercase tracking-wider">
-            <Eye size={16} className="mr-2" />
-            <span>Ver detalles</span>
+          <p className="text-white/90 text-xs font-black uppercase tracking-[0.2em] mb-4 flex items-center">
+            <span className="w-2 h-2 bg-merengue-pastel rounded-full mr-2" />
+            {item.categoria}
+          </p>
+          
+          <div className="flex items-center text-white text-xs font-bold uppercase tracking-widest pt-4 border-t border-white/10 group">
+            <Eye size={18} className="mr-2 group-hover:scale-125 transition-transform" />
+            <span>Explorar creación</span>
           </div>
         </motion.div>
       </div>
 
-      {/* Ribbon/Tag for new items or specific categories */}
+      {/* Featured Badge */}
       {item.isFeatured && (
-        <div className="absolute top-4 right-4 bg-merengue-main text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest border border-white/20">
+        <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-md text-merengue-main text-[10px] font-black px-5 py-2 rounded-full shadow-xl uppercase tracking-[0.2em] border border-merengue-pastel">
           Destacado
         </div>
       )}

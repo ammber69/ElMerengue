@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
-import { Check, X } from 'lucide-react';
+import { Check, X, ZoomIn, ZoomOut } from 'lucide-react';
 import { Button } from '../Button';
 import getCroppedImg from '../../utils/cropImage';
 
@@ -18,10 +18,7 @@ export const ImageCropper = ({ imageSrc, onCropComplete, onCancel }) => {
     if (!croppedAreaPixels) return;
     try {
       setIsCropping(true);
-      // Now getCroppedImg returns a Base64 string directly
       const base64Image = await getCroppedImg(imageSrc, croppedAreaPixels);
-      
-      // Pass the base64 string as both the "file" (to be saved to Firestore) and the preview
       onCropComplete(base64Image, base64Image);
     } catch (e) {
       console.error(e);
@@ -31,53 +28,60 @@ export const ImageCropper = ({ imageSrc, onCropComplete, onCancel }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-merengue-gray/30 p-6 rounded-3xl relative overflow-hidden min-h-[400px]">
-      <div className="absolute top-0 left-0 right-0 bottom-24 bg-black/10 rounded-2xl overflow-hidden">
+    <div className="flex flex-col h-full space-y-4">
+      {/* Cropper Container */}
+      <div className="relative w-full aspect-square rounded-[2rem] overflow-hidden bg-merengue-gray/20 border-2 border-merengue-pastel shadow-inner">
         <Cropper
           image={imageSrc}
           crop={crop}
           zoom={zoom}
-          aspect={1} // 1:1 aspect ratio
+          aspect={1}
           onCropChange={setCrop}
           onCropComplete={handleCropComplete}
           onZoomChange={setZoom}
           cropShape="rect"
           showGrid={true}
+          style={{
+            containerStyle: { borderRadius: '2rem' }
+          }}
         />
       </div>
       
-      <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg flex flex-col space-y-4">
+      {/* Controls Container */}
+      <div className="bg-merengue-gray/10 p-5 rounded-[2rem] border border-merengue-pastel space-y-4">
         <div className="flex items-center space-x-4">
-          <span className="text-sm font-bold text-merengue-dark">Zoom</span>
+          <ZoomOut size={16} className="text-merengue-text/40" />
           <input
             type="range"
             value={zoom}
             min={1}
             max={3}
             step={0.1}
-            aria-labelledby="Zoom"
-            onChange={(e) => setZoom(e.target.value)}
-            className="w-full accent-merengue-main"
+            onChange={(e) => setZoom(parseFloat(e.target.value))}
+            className="flex-1 accent-merengue-main h-1.5 bg-merengue-pastel rounded-full appearance-none cursor-pointer"
           />
+          <ZoomIn size={16} className="text-merengue-main" />
         </div>
-        <div className="flex justify-between space-x-4">
+
+        <div className="flex gap-3">
           <Button 
             onClick={onCancel} 
-            className="flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 py-3 rounded-xl flex items-center justify-center"
+            variant="outline"
+            className="flex-1 py-3 px-0 border-merengue-pastel text-merengue-text/60 hover:bg-white hover:text-red-500 hover:border-red-200 transition-all duration-300"
             disabled={isCropping}
           >
             <X size={18} className="mr-2" /> Cancelar
           </Button>
           <Button 
             onClick={handleSave} 
-            className="flex-1 py-3 rounded-xl flex items-center justify-center"
+            className="flex-1 py-3 px-0 shadow-lg shadow-merengue-main/20"
             disabled={isCropping}
           >
             {isCropping ? (
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
             ) : (
               <>
-                <Check size={18} className="mr-2" /> Aplicar Recorte
+                <Check size={18} className="mr-2" /> Aplicar
               </>
             )}
           </Button>

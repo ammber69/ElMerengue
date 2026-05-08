@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { cn } from '../utils/cn';
@@ -6,6 +7,31 @@ import { cn } from '../utils/cn';
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const clickTimeoutRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleTitleClick = (e) => {
+    e.preventDefault();
+    
+    // Clear existing timeout
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+
+    const newCount = clickCount + 1;
+    
+    if (newCount >= 10) {
+      setClickCount(0);
+      navigate('/admin/login');
+    } else {
+      setClickCount(newCount);
+      // Reset count after 2 seconds of inactivity
+      clickTimeoutRef.current = setTimeout(() => {
+        setClickCount(0);
+      }, 2000);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,7 +57,11 @@ export const Header = () => {
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <a href="#" className="text-2xl font-display font-bold text-merengue-main">
+        <a 
+          href="#" 
+          onClick={handleTitleClick}
+          className="text-2xl font-display font-bold text-merengue-main select-none"
+        >
           El Merengue
         </a>
 
